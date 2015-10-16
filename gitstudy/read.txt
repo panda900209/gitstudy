@@ -1,6 +1,8 @@
 Git is a version control system.
 Git is free software distributed under GPL.
 Git is a distributed control system.
+Git tracks changes.
 Git 是版本控制系统。
 Git是免费的软件。
 Git是分布式控制系统。
+增加一个readme.txt文件。
