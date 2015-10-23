@@ -5,3 +5,4 @@ creating a new branch is quick and simple.
 creating a new branch is quick & simple.
 resolve or | fix conflict
 git no-ff merge.
+git is free software.
