@@ -1,0 +1,105 @@
+Notepad++ v6.8.3 bug-fixes:
+vi <file name> //调出文件，可以直接修改
+1.GIT安装   在windows上安装
+	   a)下载安装包，按默认选项安装即可，安装完成后在开始菜单里找到‘Git-Git bash'
+	 弹出命令行窗口，说明Git安装成功。
+	   b)安装完成后，在命令行输入命令：
+			$git config --global user.name "your name"
+			$git config --global user.email "email@example.com"
+2.创建版本库
+	1）选择一个合适的地方创建一个空目录（为避免莫名其妙的问题，确保目录名不包含中文）
+输入命令：$mkdir learngit
+		$cd learngit 
+		$pwd            //显示当前目录
+	2）把目录变成Git可以管理的仓库
+输入命令：$git init
+此时当前目录下生成.git目录，如果没有，因为这个目录是默认隐藏的，用ls -ah命令可以看见。
+3.把文件添加到版本库
+建议使用标准的UTF-8编码。不要使用windows自带的记事本编辑任何文本文件（微软开发记事本在保存UTF-8文件时在每个文件开头
+添加了0xefbbf的字符，编译是报语法错误。）建议使用Notepad++代替记事本，默认编码设置为UTF-8without BOM
+不勾选应用于打开ANSI文件。
+	eg. 1）编写readme.txt文件，将文件放到learngit目录下
+		2)$git add readme.txt				//将文件添加到仓库，执行命令后，如果没有任何显示，说明添加成功
+		3)$git commit -m "本次提交的说明"	//提交文件到仓库。
+			$git add file1.txt
+			$git add file2.txt file3.txt
+			$git commit -m "add 3 files."
+4.修改文件(成功添加并提交readme.txt)
+	运行$git status命令，告诉做了修改  //随时掌握工作区的状态
+	运行$git diff readme.txt 命令，查看具体修改了什么内容//比较的是工作区和暂存区的区别
+知道对文件做了什么修改后，在提交至仓库。提交修改文件步骤等同于提交新文件：
+	1）$git add readme.txt
+	2) $git status
+	3) $git commit -m "add distributed"
+5.版本回退
+输入命令： $git log		//显示从最近到最远的提交日志
+			$git log  --pretty=oneline  //简化显示信息
+前面显示的一大串是commit id（版本号）。
+在GIT中，用HEAD表示当前版本（最新提交的版本），上一个版本是HEAD^,上上一个版本是HEAD^^，当前往上100个版本是HEAD~100.
+输入命令$git reset --hard HEAD^ 	//当前版本回退到上一个版本
+		$cat readme.txt				//查看文件内容
+还可以继续回退上衣版本
+首先，输入$git log查看现在版本库状态。//查看提交历史，确定要回退到哪个版本
+最新版本的文件已经看不到，想要回去，
+	输入命令$git reset --hard commit id（7位就可以）//不同版本间的穿梭
+			$git reflog用来记录你的每一次命令。		//查看历史命令，确定要回到未来的哪个版本
+6.管理修改：第一次修改 -> git add -> 第二次修改 -> git add -> git commit	
+		提交后，用git diff HEAD -- read.txt命令查看工作区和版本库里面最新版本的区别
+		
+7.撤销修改
+cat file ->git status ->git checkout -- file ->cat file 
+	1)git checkout -- file 把文件在工作区的修改全部撤销，（未提交到暂存区）存在2种情况:
+		（1）文件自修改后还没有存放到暂存区，撤销修改就是回到和版本库一样的状态
+		（2）文件已经添加到暂存区，又做了修改，撤销修改就回到添加到暂存区后的状态
+	2）git reset HEAD file 把暂存区的修改撤销掉，重新放回工作区 ->git checkout -- file
+	3）已经提交了，使用版本回退指令。
+8.删除文件
+	1)使用rm file 命令 ->git status 查看哪些文件被删除 ->git checkout -- file  恢复误删文件
+	2）在文件管理器中删除文件
+	3）git rm file -> git commit -m "remove file" 文件就从版本库中删除了
+git reset HEAD -- test.txt ->git checkout -- file  恢复误删文件
+9.添加远程仓库
+	（1）设置
+		1）注册Github帐号
+		2）在git bash（Linux下代开shell）中创建SSH Key
+			输入命令$ssh-keygen -t rsa -C "email".在用户主目录生成.ssh目录（包含id_rsa私钥和id_rsa.pub公钥）
+		3）登录Github，打开“Account settings”->"SSH Key "->"add SSH Key"填上任意Title，在Key文本框里粘贴id_rsa.pub的内容
+点“Add Key”	
+	（2）添加远程库
+		1）登录Github->“Create a new repo”,输入“name” name与本地库名字相同
+		2）关联库：根据Github提示，在本地的“name”仓库下运行命令:
+			git remote add origin git@github.com:github账户名/name.git
+		3) 第一次，推送本地库到远程库：git push -u origin master
+		4）此后，每次本地提交后，只要有必要使用命令git push origin master推送最新更改。
+10.从远程库克隆（创建远程库，从远程库克隆）
+	1）登陆GitHub，创建一个新的仓库，名字叫gitskills，
+勾选Initialize this repository with a README，GitHub会自动创建一个README.md文件。
+	2）克隆一个本地库：$ git clone git@github.com:panda900209/gitskills.git
+GitHub给出的地址不止一个，还可以用https://github.com/michaelliao/gitskills.git这样的地址
+Git支持多种协议，包括https，但通过ssh支持的原生git协议速度最快。
+11.分支管理
+Git鼓励大量使用分支：
+
+查看分支：git branch
+
+创建分支：git branch <name>
+
+切换分支：git checkout <name>
+
+创建+切换分支：git checkout -b <name>
+
+合并某分支到当前分支：git merge <name>
+
+删除分支：git branch -d <name>
+12.解决冲突
+
+
+			<<<<<<< HEAD
+			resolve | fix conflict
+			=======								//分割线，隔开master分支和
+			resolve or fix conflict
+			>>>>>>> feature1
+
+
+
+	
