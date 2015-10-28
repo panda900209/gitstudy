@@ -1,6 +1,9 @@
-创建标签
+1.创建标签
 	git tag （名字）
-推送标签
+2.推送标签
 	git push origin <标签名>
 	git push origin --tags（推送所有标签）
-删除标签
+修改文件内容，add-> commit->添加标签 git tag -a <标签名> -m "说明“->推送
+3.删除标签
+	1）标签只存出本地，删除本地标签 git tag  -d  <标签名>
+	2）标签已推送。先删除本地标签，再远程删除 git push origin :refs/tags/<标签名>
